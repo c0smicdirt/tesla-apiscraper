@@ -1,9 +1,15 @@
 # Telsa Credentials
+a_rooted_car = false			# Swich to true if you have a rooted car
 a_tesla_email = '<email>'               # myTesla Account Username
 a_tesla_passwd = '<password>'           # myTesla Account Password
 a_tesla_caridx = 0                      # Index of the Car in myTesla Account in case of multiple Cars
 a_allowsleep = 1                        # Allow Car to fall asleep / don't wake up if car is asleep on Scraper start
 a_maximumsleep = 1024                   # Wake up every X seconds, if car is asleep
+
+# rooted cars configs
+a_rooted_remoteapiurl = ''		# Exposed remoteAPI URL
+a_rooted_debugserviceurl = ''		# Exposed debugservice URL
+a_rooted_VIN = ''			# VIN of the car (mandatory for now)
 
 # Logging
 a_logfile = 'apiscraper.log'            # APIScraper Logfile

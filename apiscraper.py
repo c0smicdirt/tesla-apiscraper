@@ -23,6 +23,7 @@ import sys
 import time
 import urllib2
 import teslajson
+import teslarootedjson
 import logging
 
 from influxdb import InfluxDBClient
@@ -66,8 +67,14 @@ class StateMonitor(object):
                                   4: ("charge_state", "drive_state", )}
         self.old_values = dict([(r, {}) for r in self.requests])
 
-        connection = teslajson.Connection(a_tesla_email, a_tesla_passwd)
-        self.vehicle = connection.vehicles[a_tesla_caridx]
+        if a_rooted_car:
+            connection = teslarootedjson.Connection(a_rooted_remoteapiurl,
+                                                    a_rooted_debugserviceurl,
+                                                    a_rooted_VIN)
+            self.vehicle = connection.vehicles[a_tesla_caridx]
+        else:
+            connection = teslajson.Connection(a_tesla_email, a_tesla_passwd)
+            self.vehicle = connection.vehicles[a_tesla_caridx]
 
     def wake_up(self):
         """ mod """
@@ -99,8 +106,14 @@ class StateMonitor(object):
         while True:
             try:
                 logger.info("Getting vehicle state")
-                connection = teslajson.Connection(
-                    a_tesla_email, a_tesla_passwd)
+
+                if a_rooted_car:
+                    connection = teslarootedjson.Connection(a_rooted_remoteapiurl,
+                                                            a_rooted_debugserviceurl,
+                                                            a_rooted_VIN)
+                else:
+                    connection = teslajson.Connection(
+                        a_tesla_email, a_tesla_passwd)
                 self.vehicle = connection.vehicles[0]
                 return self.vehicle
             except (KeyError, urllib2.HTTPError, urllib2.URLError) as details:
